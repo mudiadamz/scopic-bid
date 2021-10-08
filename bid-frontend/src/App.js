@@ -35,9 +35,14 @@ function GlobalContext(props){
         axios.get( `${API_URL}/api/me`, {headers: { 'authorization': 'Bearer '+lsToken }} )
             .then(({data}) => {
                 setUserDetail(data);
-            }).catch(({response})=>{
-            const { status, data:{message,last_bid} } = response;
-        });
+            })
+            .catch(({response})=>{
+                const { status, data:{message,last_bid} } = response;
+                if(status===401) {
+                    localStorage.removeItem("token");
+                    setToken(false);
+                }
+            });
     },[]);
 
     return<>
