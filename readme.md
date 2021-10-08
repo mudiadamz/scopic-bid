@@ -11,6 +11,7 @@ cd bid-backend
 composer install
 ```
 
+- rename `.env.example` to `.env`
 - set the correct MySQL db configuration inside `.env`
 - initiate a dummy data, please answer 'yes'
 
