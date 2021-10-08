@@ -11,7 +11,15 @@ A Simple Web application using Laravel  and React, to do simple item bidding
 cd bid-backend
 composer install
 php artisan migrate
+```
+- initiate a dummy data, please answer 'yes'
+
+```
 php artisan db:seed
+```
+
+- run local server
+```
 php artisan serve
 ```
 
