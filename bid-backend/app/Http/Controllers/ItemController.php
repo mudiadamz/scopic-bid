@@ -20,7 +20,7 @@ class ItemController extends Controller
         }
         if($request->has('direction')){
             //Handle default parameter of get with second argument
-            $query->orderBy('last_price', $request->get('direction', 'ASC'));
+            $query->orderBy('start_price', $request->get('direction', 'ASC'));
         }
         return $query->paginate(10);
     }
