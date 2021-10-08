@@ -16,11 +16,15 @@ export function postBid(id,amount,token) {
 
 export default function ItemDetail({id,lastPrice}) {
     const[data,setData] = useState({});
-    let [newPrice,setNewPrice] = useState(lastPrice);
+    let [newPrice,setNewPrice] = useState(0);
     const [openBidPrice,setOpenBidPrice] = useState(0);
     const {token,userDetail,setUserDetail} = React.useContext(AuthContext);
     const [open,setOpen] = useState(false);
     const [alert,setAlert] = useState("");
+
+    useEffect(()=>{
+        setNewPrice(lastPrice);
+    },[lastPrice]);
 
     function handleBid(event) {
         event.preventDefault();
@@ -65,11 +69,8 @@ export default function ItemDetail({id,lastPrice}) {
         <Typography variant="body2" color="text.secondary">{description}</Typography>
         <Typography color={"green"}>Price: $ {`${start_price}`}<br/></Typography>
         <Typography color={"tomato"}> Last Bid: $ {`${newPrice}`} </Typography>
-        <Box
-            sx={{ mt: 5 }}>
-            <Box
-                component="form" noValidate
-                onSubmit={handleBid}>
+        <Box sx={{ mt: 5 }}>
+            <Box component="form" noValidate onSubmit={handleBid}>
                 <FormControl  sx={{ mr: 1 }}>
                     <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                     <OutlinedInput
@@ -79,7 +80,7 @@ export default function ItemDetail({id,lastPrice}) {
                         min={openBidPrice}
                         value={openBidPrice}
                         onChange={(e)=>{
-                            setOpenBidPrice(parseFloat(e.target.value)||0);
+                            setOpenBidPrice(e.target.value);
                         }}
                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                         label="Amount"
@@ -88,8 +89,6 @@ export default function ItemDetail({id,lastPrice}) {
                 <Button
                     type={"submit"}
                     sx={{ mr: 1 }}
-                    onClick={()=>{
-                    }}
                     size="large"
                     variant={"contained"}
                     color={"success"}>Submit Bid</Button>

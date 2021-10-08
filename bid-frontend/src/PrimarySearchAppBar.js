@@ -10,7 +10,7 @@ import {APP_TITLE} from "./constants";
 import {AuthContext} from "./App";
 
 export default function PrimarySearchAppBar() {
-    const{token}=React.useContext(AuthContext);
+    const{token,userDetail}=React.useContext(AuthContext);
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -29,10 +29,13 @@ export default function PrimarySearchAppBar() {
                     </Typography>
 
                     {!token&&<Button onClick={()=>window.location.href="/login"} color="inherit">Login</Button>}
-                    {token&&<Button onClick={()=>{
-                        localStorage.removeItem("token");
-                        window.location.href="/";
-                    }} color="inherit">Logout</Button>}
+                    {token&&<>
+                        ({userDetail?.name})
+                        <Button onClick={()=>{
+                            localStorage.removeItem("token");
+                            window.location.href="/";
+                        }} color="inherit">Logout</Button>
+                    </>}
                 </Toolbar>
             </AppBar>
         </Box>

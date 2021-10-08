@@ -11,6 +11,7 @@ export default function BidHistory({id, lastHistory}) {
     const [data,setData] = useState([]);
     const {token,userDetail,setUserDetail} = React.useContext(AuthContext);
     const [open,setOpen] = useState(false);
+    const timeoutRef = React.useRef(null);
     let interval;
 
     function handleAlertClose(){
@@ -39,15 +40,22 @@ export default function BidHistory({id, lastHistory}) {
             });
     }
 
-    useEffect(()=>{
-        fetchBidHistory();
-    },[]);
+    // useEffect(()=>{
+    //     fetchBidHistory();
+    // },[]);
 
     useEffect(()=>{
-        if(interval) clearInterval(interval);
-        interval = setInterval(function(){
+        function loadHistory(){
             fetchBidHistory();
-        }, 5000);
+            if (timeoutRef.current !== null) {
+                clearTimeout(timeoutRef.current);
+            }
+            timeoutRef.current = setTimeout(()=> {
+                timeoutRef.current = null;
+                loadHistory();
+            },5000);
+        }
+        loadHistory();
     },[userDetail]);
 
     return <>

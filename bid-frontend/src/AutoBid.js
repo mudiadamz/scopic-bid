@@ -21,6 +21,7 @@ export default function AutoBid() {
                     const auto_bid = !autoBid;
                     setAutoBid(auto_bid);
                     updateUser({auto_bid}, setUserDetail);
+                    setUserDetail({...userDetail, auto_bid})
                 }}
             />} label={<span>Enable Auto Bid </span>} />
         <CustomizedDialogs open={false}/>

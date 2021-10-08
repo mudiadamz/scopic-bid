@@ -19,7 +19,7 @@ export function updateUser( data, setUserDetail ) {
     const lsToken = localStorage.getItem("token");
     axios.post( `${API_URL}/api/user/update`, data, {headers: { 'authorization': 'Bearer '+lsToken }} )
         .then(({data}) => {
-            setUserDetail(data);
+            // setUserDetail(data);
         }).catch(({response})=>{
         const { status, data:{message,last_bid} } = response;
         // if(status===401) window.location.href=`/login`;
