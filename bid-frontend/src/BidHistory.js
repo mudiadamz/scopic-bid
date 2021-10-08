@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Alert, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
@@ -10,7 +10,12 @@ import {AuthContext} from "./App";
 export default function BidHistory({id, lastHistory}) {
     const [data,setData] = useState([]);
     const {token,userDetail,setUserDetail} = React.useContext(AuthContext);
+    const [open,setOpen] = useState(false);
     let interval;
+
+    function handleAlertClose(){
+        setOpen(!open);
+    }
 
     function fetchBidHistory() {
         axios.get( `${API_URL}/api/bid_history/${id}` )
@@ -18,6 +23,8 @@ export default function BidHistory({id, lastHistory}) {
                 const lastBid = data[0];
                 let newBid = parseFloat(lastBid?.amount)||0;
                 if(newBid>0) newBid=newBid+1;
+                if(userDetail?.auto_bid&&userDetail?.max_bid===0)
+                    setOpen(true);
                 if(typeof userDetail?.id!=="undefined"
                     && lastBid?.user_id!==userDetail?.id
                     && userDetail?.auto_bid===1
@@ -44,6 +51,9 @@ export default function BidHistory({id, lastHistory}) {
     },[userDetail]);
 
     return <>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleAlertClose}>
+            <Alert severity="info">You must configure max bet!</Alert>
+        </Snackbar>
         <Typography gutterBottom variant="h5" component="div">
             Latest bid
         </Typography>

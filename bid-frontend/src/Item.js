@@ -27,13 +27,9 @@ function ItemDeta() {
 export default function Item(props){
     const { id } = useParams();
     const history = useHistory();
-    const[item,setItem] = useState({});
     const[lastPrice,setLastPrice] = useState(0);
-    const {token,userDetail,setUserDetail} = React.useContext(AuthContext);
     const [open,setOpen] = useState(false);
     const [alert,setAlert] = useState("");
-    let interval;
-
     function handleAlertClose(){
         setOpen(!open);
     }

@@ -29,7 +29,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function CustomizedDialogs(props) {
     const [open, setOpen] = React.useState(props.open);
     const [max_bid, setMax_bid] = React.useState(0);
-    const {token,userDetail} = React.useContext(AuthContext);
+    const {token,userDetail,setUserDetail} = React.useContext(AuthContext);
 
     function handleClickOpen(){
         setOpen(true);
@@ -37,7 +37,7 @@ export default function CustomizedDialogs(props) {
     function handleSubmit(){
         axios.post( `${API_URL}/api/user/update`, {max_bid}, {headers: { 'authorization': 'Bearer '+token }} )
             .then(({data}) => {
-
+                setUserDetail(data);
             }).catch(({response})=>{
             const { status, data:{message,last_bid} } = response;
             if(status===401) window.location.href=`/login`;
