@@ -13,12 +13,26 @@ class BidController extends Controller
     {
         $amount = $request->get("amount");
         $item = Item::findOrFail($id);
+        if($amount <= $item->start_price )
+            return response()->json([
+                "message"=>"Amount must be higher than the price",
+                "start_price"=>$item->start_price
+            ], 400);
         if($amount <= $item->last_price )
             return response()->json([
                 "message"=>"Amount must be higher than last bid",
                 "last_bid"=>$item->last_price
             ], 400);
         $user = Auth::guard()->user();
+        $last_bid = Bid::query()
+            ->where('item_id', $id)
+            ->latest()
+            ->first()
+        ;
+        if($last_bid->user_id == $user->id )
+            return response()->json([
+                "message"=>"You already placed the highest bid"
+            ], 400);
         $article = Bid::create([
             "user_id"=>$user->id,
             "item_id"=>$item->id,
