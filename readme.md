@@ -34,4 +34,6 @@ npm install
 npm start
 ```
 - now open the browser and visit `localhost:3000`
-
+- you can use the following dummy user:
+- username: `user1` password: `scopic`
+- username: `user2` password: `scopic`
